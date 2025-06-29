@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Kedai Kalli - Pemesanan</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+  <script type="module" src="../firebase.js"></script>
+  <script src="js/menu.js" defer></script>
+  <script src="js/ui-menu.js" defer></script>
+  <script src="js/keranjang.js" defer></script>
+  <script type="module" src="js/qr.js"></script>
+  <script src="js/struk.js" defer></script>
+  <script type="module" src="js/main.js"></script>
+
+</head>
+<body>
+  <header>
+    <div class="logo-bar">
+      <div class="logo">K</div>
+      <div class="brand">KEDAI KALLI</div>
+    </div>
+  </header>
+
+  <!-- CAROUSEL -->
+  <div class="carousel">
+    <div class="carousel-track" id="carousel-track">
+      <img src="images/banner1.png" alt="Banner 1">
+      <img src="images/banner2.jpg" alt="Banner 2">
+      <img src="images/banner3.jpg" alt="Banner 3">
+    </div>
+    <button class="carousel-btn prev" onclick="geserSlide(-1)">&#10094;</button>
+    <button class="carousel-btn next" onclick="geserSlide(1)">&#10095;</button>
+  </div>
+  <div class="carousel-dots" id="carousel-dots"></div>
+
+  <!-- KATEGORI -->
+  <nav class="nav-tabs">
+    <button class="button" onclick="tampilkanKategori('paket')">Paket</button>
+    <button class="button" onclick="tampilkanKategori('makanan')">Makanan</button>
+    <button class="button" onclick="tampilkanKategori('minuman')">Minuman</button>
+    <button class="button" onclick="tampilkanKategori('tambahan')">Tambahan</button>
+  </nav>
+
+  <!-- HALAMAN UTAMA MENU -->
+  <main class="section">
+    <h2 id="judul-kategori">PAKET</h2>
+    <div id="daftar-menu" class="menu-grid"></div>
+  </main>
+
+  <!-- FOOTER KERANJANG -->
+  <footer class="keranjang-bar">
+    <div class="keranjang-info">
+      <span class="icon">🛒</span>
+      <span id="keranjang-total">Total : Rp. 0</span>
+    </div>
+    <button class="button" onclick="lanjutkanKeRingkasan()">&gt;</button>
+  </footer>
+
+  <!-- HALAMAN RINGKASAN -->
+  <div id="halaman-ringkasan" class="section hidden">
+    <div style="display: flex; justify-content: space-between; align-items: center;">
+  <h2 style="display: flex; align-items: center; gap: 8px;">
+    <span class="icon">🛒</span> Ringkasan Pesanan
+  </h2>
+  <button class="button" onclick="kembaliKeMenu()" title="Kembali ke Menu">
+    ▼ <span style="font-size: 0.85em;">Menu</span>
+  </button>
+</div>
+    <div id="isi-keranjang"></div>
+
+    <div style="display: flex; gap: 12px; flex-wrap: wrap;">
+      <div style="flex: 1; min-width: 200px;">
+        <label>Nama Pembeli:</label>
+        <input type="text" id="nama-pembeli" placeholder="Masukkan nama" required />
+      </div>
+      <div style="flex: 1; min-width: 200px;">
+        <label>Catatan:</label>
+        <textarea id="catatan" maxlength="100" placeholder="Catatan (opsional, max 100 karakter)"></textarea>
+      </div>
+    </div>
+
+    <h3 id="total-harga"></h3>
+    <button class="button" onclick="tampilkanQRCode()" id="btn-qr">Lanjutkan Pembayaran</button>
+  </div>
+
+  <!-- HALAMAN QR -->
+  <div id="halaman-qr" class="section hidden">
+    <h2>QR Pembayaran</h2>
+    <p>Tunjukkan QR ini ke kasir untuk menyelesaikan pembayaran.</p>
+    <div id="qrcode" style="text-align:center; margin-bottom: 20px;"></div>
+    <div style="display: flex; flex-direction: column; align-items: center; gap: 10px;">
+    </div>
+  </div>
+
+  <!-- HALAMAN STRUK -->
+ <div id="halaman-struk" class="section hidden">
+  <div id="struk-wrapper" style="background: white; max-width: 500px; margin: auto; padding: 24px; font-family: 'Segoe UI', sans-serif; border: 1px solid #ccc; border-radius: 10px;">
+    <div style="display: flex; justify-content: space-between; align-items: center;">
+      <h2>INVOICE</h2>
+      <img src="images/logo-kedai.png" alt="Logo Kedai Kalli" style="height: 50px; width: auto;">
+    </div>
+
+    <hr style="margin: 10px 0;">
+
+    <div style="display: flex; justify-content: space-between;">
+      <div>
+        <strong>Kedai Kalli</strong><br>
+        <small id="tanggal-struk">Tanggal: -</small><br>
+        <small id="id-transaksi-struk">ID: -</small>
+      </div>
+      <div style="text-align: right;">
+        <strong>Pembeli</strong><br>
+        <small id="nama-struk">-</small>
+      </div>
+    </div>
+
+    <table style="width: 100%; margin-top: 20px; border-collapse: collapse;">
+      <thead>
+        <tr>
+          <th style="text-align:left;">Item</th>
+          <th>Qty</th>
+          <th>Harga</th>
+          <th>Total</th>
+        </tr>
+      </thead>
+      <tbody id="tabel-struk"></tbody>
+    </table>
+
+    <hr style="margin-top: 16px;">
+    <div style="text-align: right;">
+      <strong>Total: <span id="total-struk"></span></strong>
+    </div>
+
+    <div style="margin-top: 20px;">
+      <p style="margin-bottom: 4px;"><strong>Payment:</strong> <span id="metode-struk"></span></p>
+      <p style="font-family: cursive; text-align: right;">Thank you 💛</p>
+    </div>
+  </div>
+
+  <div style="margin-top: 20px; text-align: center;">
+    <button class="button" onclick="downloadStruk()">Download</button>
+    <button class="button" onclick="kirimStrukLangsungKeWA()">Kirim WA</button>
+    <button class="button" onclick="kembaliKeHome()">Selesai</button>
+  </div>
+</div>
+
+  <!-- MODAL PILIHAN PAKET -->
+  <div id="modal-pilihan" class="modal hidden">
+    <div class="modal-content" id="konten-modal"></div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin - Kedai Kalli</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <!-- Sidebar -->
+  <nav class="sidebar">
+    <div class="logo">Kedai Kalli</div>
+    <ul>
+      <li onclick="tampilkanHalaman('dashboard')">🏠 Dashboard</li>
+      <li onclick="tampilkanHalaman('scan')">💳 Scan QR</li>
+      <li onclick="tampilkanHalaman('stok')">📦 Kelola Stok</li>
+      <li id="menu-akun" class="hidden" onclick="tampilkanHalaman('akun')">👤 Kelola Akun</li>
+    </ul>
+    <button onclick="logout()" class="logout-btn">🚪 Logout</button>
+  </nav>
+
+  <!-- Konten -->
+  <main class="konten">
+    <!-- DASHBOARD -->
+    <section id="dashboard" class="halaman aktif">
+      <h2>Laporan Penjualan</h2>
+      <div style="display: flex; justify-content: space-between; align-items: center; gap: 20px; flex-wrap: wrap;">
+        <div style="flex: 1;">
+          <label>Pilih Tipe:</label>
+          <select id="filter-ringkasan">
+            <option value="harian">Harian</option>
+            <option value="mingguan">Mingguan</option>
+            <option value="bulanan">Bulanan</option>
+            <option value="tahunan">Tahunan</option>
+          </select>
+          <div id="laporan-ringkasan" style="margin-top: 10px;"></div>
+        </div>
+        <canvas id="grafik-ringkasan" width="300" height="150" style="background: #f2f2f2;"></canvas>
+      </div>
+
+      <h3 style="margin-top: 30px;">Tabel Transaksi</h3>
+      <table>
+        <thead>
+          <tr>
+            <th>Nama</th>
+            <th>Pesanan</th>
+            <th>Total</th>
+            <th>Waktu</th>
+            <th>Metode</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody id="isi-tabel-laporan"></tbody>
+      </table>
+
+      <div id="unduh-laporan" class="hidden" style="margin-top: 20px;">
+        <button onclick="downloadLaporan()">Download Laporan (CSV)</button>
+      </div>
+    </section>
+
+    <!-- SCAN QR -->
+    <section id="scan" class="halaman">
+      <h2>Scan QR Pesanan</h2>
+      <video id="preview" autoplay muted playsinline class="video-scan"></video>
+      <div id="hasil-scan" class="hidden">
+        <h3>Detail Pesanan</h3>
+        <p><strong>Nama:</strong> <span id="nama"></span></p>
+        <ul id="daftar-item"></ul>
+        <p><strong>Total:</strong> <span id="total"></span></p>
+
+        <label for="metode-pembayaran"><strong>Pilih Metode:</strong></label>
+        <select id="metode-pembayaran">
+          <option value="tunai">Tunai</option>
+          <option value="non-tunai">Non Tunai</option>
+        </select>
+
+        <button onclick="tandaiSelesai()">Tandai Selesai</button>
+      </div>
+    </section>
+
+    <!-- KELOLA STOK -->
+    <section id="stok" class="halaman">
+      <h2>Kelola Stok</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Nama Item</th>
+            <th>Stok</th>
+            <th>Aksi</th>
+          </tr>
+        </thead>
+        <tbody id="isi-stok"></tbody>
+      </table>
+    </section>
+
+    <!-- KELOLA AKUN (MASTER) -->
+    <section id="akun" class="halaman">
+      <h2>Kelola Akun</h2>
+      <form id="form-akun">
+        <input type="email" id="email-baru" placeholder="Email pengguna baru" required />
+        <input type="password" id="password-baru" placeholder="Password" required />
+        <select id="role-baru">
+          <option value="admin">Admin</option>
+          <option value="kasir">Kasir</option>
+        </select>
+        <button type="submit">Buat Akun</button>
+      </form>
+      <p id="pesan-akun" class="success-message"></p>
+    </section>
+  </main>
+
+  <!-- Script -->
+  <script type="module" src="../firebase.js"></script>
+  <script type="module" src="js/main.js"></script>
+</body>
+</html>

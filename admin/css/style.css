@@ -1,0 +1,163 @@
+/* Layout */
+body {
+  display: flex;
+  margin: 0;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+.sidebar {
+  width: 220px;
+  background: #292929;
+  color: #fff;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.sidebar .logo {
+  font-size: 1.6em;
+  font-weight: bold;
+  padding: 20px;
+  text-align: center;
+  background: #1f1f1f;
+}
+
+.sidebar ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.sidebar li {
+  padding: 15px 20px;
+  cursor: pointer;
+  border-bottom: 1px solid #3a3a3a;
+}
+
+.sidebar li:hover {
+  background: #404040;
+}
+
+.logout-btn {
+  background: none;
+  border: none;
+  color: #fff;
+  padding: 15px 20px;
+  width: 100%;
+  cursor: pointer;
+  text-align: left;
+}
+
+.konten {
+  flex-grow: 1;
+  padding: 30px;
+  overflow-y: auto;
+  background: #f9f9f9;
+}
+
+.halaman {
+  display: none;
+}
+.halaman.aktif {
+  display: block;
+}
+
+.hidden {
+  display: none !important;
+}
+
+/* Tabel */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 40px;
+}
+
+th, td {
+  border: 1px solid #ccc;
+  padding: 10px;
+  text-align: left;
+}
+
+th {
+  background: #f2f2f2;
+}
+
+tbody tr:nth-child(odd) {
+  background-color: #f9f9f9;
+}
+
+tbody tr:hover {
+  background-color: #e6f0ff;
+}
+
+/* Tombol */
+button {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 6px;
+  background-color: #2c7be5;
+  color: white;
+  cursor: pointer;
+  font-weight: 500;
+  transition: background 0.2s;
+}
+
+button:hover {
+  background-color: #1a5dcc;
+}
+
+/* Form */
+input, select {
+  padding: 10px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  width: 100%;
+  max-width: 400px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  box-sizing: border-box;
+}
+
+.success-message {
+  color: green;
+}
+
+/* Video Scanner */
+.video-scan {
+  width: 100%;
+  max-width: 400px;
+  aspect-ratio: 1;
+  background: black;
+  margin-bottom: 1rem;
+}
+
+/* ========== Tambahan: Style untuk Login ========== */
+.login-container {
+  font-family: 'Segoe UI', sans-serif;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  padding: 20px;
+  background: #f9f9f9;
+}
+
+.login-container h1 {
+  margin-bottom: 20px;
+}
+
+.login-container input,
+.login-container button {
+  width: 100%;
+  max-width: 300px;
+  padding: 10px;
+  margin-top: 10px;
+}
+
+#error {
+  color: red;
+  margin-top: 10px;
+}

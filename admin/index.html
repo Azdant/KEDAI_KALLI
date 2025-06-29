@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Login Admin</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body class="login-container">
+  <h1>Login Admin</h1>
+  <input type="email" id="email" placeholder="Email" required />
+  <input type="password" id="password" placeholder="Password" required />
+  <button onclick="login()">Login</button>
+  <p id="error"></p>
+
+  <script type="module">
+    import { signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-auth.js";
+    import { doc, getDoc } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-firestore.js";
+    import "../firebase.js";
+
+    const auth = window.auth;
+    const db = window.db;
+
+    window.login = async () => {
+      const email = document.getElementById("email").value.trim();
+      const password = document.getElementById("password").value.trim();
+      const errorP = document.getElementById("error");
+
+      try {
+        const userCred = await signInWithEmailAndPassword(auth, email, password);
+        const uid = userCred.user.uid;
+
+        const snap = await getDoc(doc(db, "pengguna", uid));
+        if (!snap.exists()) throw new Error("Data pengguna tidak ditemukan.");
+
+        window.location.href = "admin.html"; // semua role diarahkan ke satu halaman admin
+      } catch (err) {
+        errorP.textContent = "Login gagal: " + err.message;
+      }
+    };
+  </script>
+</body>
+</html>
